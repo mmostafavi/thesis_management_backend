@@ -1,0 +1,19 @@
+{
+  "name": "thesis_management_backend",
+  "version": "1.0.0",
+  "description": "the backend of thesis management plaform - written for a university assignment - advanced programming workshop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmostafavi/thesis_management_backend.git"
+  },
+  "author": "Mahdi Mostafavi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmostafavi/thesis_management_backend/issues"
+  },
+  "homepage": "https://github.com/mmostafavi/thesis_management_backend#readme"
+}
