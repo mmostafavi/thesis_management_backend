@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const express = require('express')
-
+import mongoose from 'mongoose'
+import express from 'express'
 const app = express()
 
 mongoose.set('returnOriginal', false)
@@ -18,11 +17,9 @@ const connectToDatabase = () => {
       app.listen(process.env.PORT)
       console.log(`app is listening in port: ${process.env.PORT}`)
     })
-    .catch((err) => {
+    .catch((err: any) => {
       throw err
     })
 }
 
-module.exports = {
-  connectToDatabase,
-}
+export { connectToDatabase }
