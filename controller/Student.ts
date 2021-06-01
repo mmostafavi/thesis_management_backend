@@ -1,14 +1,6 @@
-import DepartmentClass from './Department'
+import Department from './Department'
 
-interface StudentI {
-  firstName: string
-  lastName: string
-  studentNumber: number
-  studyField: string
-  studyGrade: number
-  entranceDate: string
-  assignToDepartment(d: DepartmentClass): null
-}
+import { StudentI } from '../interface/index'
 
 export default class Student implements StudentI {
   firstName: string
@@ -32,7 +24,7 @@ export default class Student implements StudentI {
     this.studyGrade = studyGrade
     this.entranceDate = entranceDate
   }
-  assignToDepartment(department: DepartmentClass): null {
+  assignToDepartment(department: Department): null {
     // add your code
     return null
   }

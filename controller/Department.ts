@@ -1,20 +1,5 @@
 import Instructor from './Instructor'
-
-interface instructorInput {
-  firstName: string
-  lastName: string
-  specialty: []
-  scientificLevel: number
-  id: number
-  department: Department
-}
-
-interface DepartmentI {
-  name?: string
-  manager?: string
-  createInstructor(instructorObj: instructorInput): Instructor
-  manageInstructor(i: Instructor): null
-}
+import { instructorInput, DepartmentI } from '../interface/index'
 
 export default class Department implements DepartmentI {
   name: string
@@ -25,6 +10,13 @@ export default class Department implements DepartmentI {
   }
 
   createInstructor(instructorObj: instructorInput): Instructor {
+    const instructorTest = new Instructor(
+      'Mahdi',
+      'Mostafavi',
+      ['IOT'],
+      'professor'
+    )
+    return instructorTest
     // add logic
   }
 

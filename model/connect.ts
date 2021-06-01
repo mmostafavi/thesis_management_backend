@@ -1,25 +1,18 @@
 import mongoose from 'mongoose'
-import express from 'express'
-const app = express()
+import dotenv from 'dotenv'
+dotenv.config()
 
 mongoose.set('returnOriginal', false)
 const connectToDatabase = () => {
   mongoose
-    .connect(
-      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_USER_PASSWORD}@cluster0.oygyj.mongodb.net/${process.env.DATABASE_DEFAULT_DATABASE}?retryWrites=true&w=majority`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-      }
-    )
-    .then(() => {
-      app.listen(process.env.PORT)
-      console.log(`app is listening in port: ${process.env.PORT}`)
+    .connect(process.env.DATABASE_CONNECTION_STRING!, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
     })
     .catch((err: any) => {
       throw err
     })
 }
 
-export { connectToDatabase }
+export default connectToDatabase

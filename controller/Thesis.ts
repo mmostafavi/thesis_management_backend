@@ -1,19 +1,7 @@
 import Instructor from './Instructor'
 import Student from './Student'
 
-interface ThesisI {
-  subject: string
-  submissionDate: string
-  defenceDate: string
-  endDate: string
-  grade: number
-  student: Student
-  state: string
-  advisorInstructor: Instructor
-  counselorInstructor: Instructor
-  refereeInstructors: Instructor
-  supervisorInstructor: Instructor
-}
+import { ThesisI } from '../interface/index'
 
 export default class Thesis implements ThesisI {
   subject: string

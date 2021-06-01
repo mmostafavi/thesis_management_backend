@@ -2,12 +2,7 @@ import Department from './Department'
 import Instructor from './Instructor'
 import Thesis from './Thesis'
 
-interface NativeInstructorI {
-  id?: number
-  department?: Department
-  guiding(t: Thesis): null
-  supervise(t: Thesis): null
-}
+import { NativeInstructorI } from '../interface/index'
 
 export default class NativeInstructor
   extends Instructor

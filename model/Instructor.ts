@@ -1,6 +1,17 @@
 import { Schema, model } from 'mongoose'
 
-const ProfessorModel = new Schema({
+const InstructorSchema = new Schema({
+  authData: {
+    username: {
+      type: String,
+      require: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+
   fName: {
     type: String,
     required: true,
@@ -24,7 +35,11 @@ const ProfessorModel = new Schema({
   },
 
   departmentInfo: {
-    department: {
+    name: {
+      type: String,
+      require: true,
+    },
+    _id: {
       type: Schema.Types.ObjectId,
       required: false,
     },
@@ -35,4 +50,5 @@ const ProfessorModel = new Schema({
   },
 })
 
-module.exports = model('Professor', ProfessorModel)
+const InstructorModel = model('Instructor', InstructorSchema)
+export default InstructorModel

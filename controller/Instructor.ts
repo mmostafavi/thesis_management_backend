@@ -1,24 +1,17 @@
 import Thesis from './Thesis'
-
-interface InstructorI {
-  firstName?: string
-  lastName?: string
-  specialty?: []
-  scientificLevel?: string
-  advise?: (t: Thesis) => null
-  judge?: (t: Thesis) => number
-}
+import { InstructorI } from '../interface/index'
+import { specialtyI } from '../interface/index'
 
 export default class Instructor implements InstructorI {
   firstName: string
   lastName: string
-  specialty: []
+  specialty: specialtyI
   scientificLevel: string
 
   constructor(
     firstName: string,
     lastName: string,
-    specialty: [],
+    specialty: specialtyI,
     scientificLevel: string
   ) {
     this.firstName = firstName

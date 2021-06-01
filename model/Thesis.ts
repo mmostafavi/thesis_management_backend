@@ -53,6 +53,4 @@ const ThesisSchema = new Schema({
   },
 })
 
-const ThesisModel = model('Thesis', ThesisSchema)
-
-export default ThesisModel
+export default model('Thesis', ThesisSchema)
