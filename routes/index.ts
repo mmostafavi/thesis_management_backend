@@ -1,7 +1,7 @@
-import authenticationRouter from './authenticationRouter'
+import authRouter from './authRouter'
 import thesisRouter from './thesisRouter'
 
 export default {
-  authenticationRouter,
+  authRouter,
   thesisRouter,
 }

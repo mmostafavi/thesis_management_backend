@@ -24,7 +24,7 @@ const InstructorSchema = new Schema({
 
   specialty: [
     {
-      type: Schema.Types.Date,
+      type: String,
       required: true,
     },
   ],
@@ -34,6 +34,10 @@ const InstructorSchema = new Schema({
     required: true,
   },
 
+  numericId: {
+    type: String,
+    required: true,
+  },
   departmentInfo: {
     name: {
       type: String,

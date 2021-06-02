@@ -4,30 +4,34 @@ import Thesis from '../controller/Thesis'
 import Student from '../controller/Student'
 
 export interface instructorInput {
-  firstName: string
-  lastName: string
-  specialty: specialtyI
-  scientificLevel: number
-  id: number
-  department: Department
+  authData: {
+    username: string
+    password: string
+  }
+  fName: string
+  lName: string
+  specialty: Array<string>
+  rank: number
+  numericId: number
+  departmentInfo: {
+    numericId: number
+    name: string
+    _id: string
+  }
 }
 
 export interface DepartmentI {
   name?: string
   manager?: string
-  createInstructor(instructorObj: instructorInput): Instructor
+  createInstructor(instructorObj: instructorInput): void
   manageInstructor(i: Instructor): null
-}
-
-export interface specialtyI {
-  [index: number]: string
 }
 
 export interface InstructorI {
   firstName?: string
   lastName?: string
-  specialty?: specialtyI
-  scientificLevel?: string
+  specialty?: Array<string>
+  rank?: number
   advise?: (t: Thesis) => null
   judge?: (t: Thesis) => number
 }
