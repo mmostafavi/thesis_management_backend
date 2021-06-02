@@ -22,8 +22,6 @@ export default class Department implements DepartmentI {
       departmentInfo: { name, numericId: departmentNumericId, _id },
     } = instructorData
 
-    // checking for availability of username
-
     // hashing the password
     const hashedPassword = bcrypt.hashSync(password, 12)
     const instructorDoc = new InstructorModel({
@@ -31,7 +29,6 @@ export default class Department implements DepartmentI {
         username,
         password: hashedPassword,
       },
-
       lName,
       fName,
       rank,
@@ -44,12 +41,9 @@ export default class Department implements DepartmentI {
       },
     })
 
-    return instructorDoc
-      .save()
-
-      .catch((err: any) => {
-        throw err
-      })
+    return instructorDoc.save().catch((err: any) => {
+      throw err
+    })
   }
 
   manageInstructor(instructor: Instructor): null {
