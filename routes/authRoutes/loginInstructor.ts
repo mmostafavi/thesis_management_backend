@@ -14,7 +14,8 @@ export default async function (req: any, res: any, next: any) {
     // ----------------------------------------------------------
     // Add validation for signing up above
     // ----------------------------------------------------------
-    const { username, password, departmentInfo } = req.body
+    const { username, password } = req.body
+    console.log('username: ', username)
 
     // ----------------------------------------------------------
     // password validation
@@ -24,7 +25,7 @@ export default async function (req: any, res: any, next: any) {
 
     const instructorExists = await checkAvailability({
       type: 'instructor',
-      username: username,
+      data: username,
     })
 
     if (!instructorExists.exists) {
@@ -41,7 +42,7 @@ export default async function (req: any, res: any, next: any) {
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60,
             username,
-            departmentInfo,
+            departmentInfo: instructorExists.result._doc.departmentInfo,
           },
           process.env.JWT_KEY!
         )

@@ -2,6 +2,17 @@ import { Schema, model } from 'mongoose'
 import Student from '../controller/Student'
 
 const StudentSchema = new Schema({
+  authData: {
+    username: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+
   numericId: {
     type: Number,
     required: true,

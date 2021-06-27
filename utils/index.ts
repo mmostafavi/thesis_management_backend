@@ -1,5 +1,6 @@
 import InstructorModel from '../model/Instructor'
 import StudentModel from '../model/Student'
+import DepartmentModel from '../model/Department'
 
 export const checkAvailability = async (payload: any) => {
   const { type, data } = payload
@@ -39,4 +40,11 @@ export const checkAvailability = async (payload: any) => {
   }
 
   throw new Error('')
+}
+
+export const populate = async (_id: string, type: string) => {
+  if (type === 'department') {
+    const fetchedDepartmentDoc = await DepartmentModel.findById(_id)
+    return fetchedDepartmentDoc._doc
+  }
 }

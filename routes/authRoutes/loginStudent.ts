@@ -1,9 +1,7 @@
-import Department from '../../controller/Department'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import Instructor from '../../controller/Instructor'
-import InstructorModel from '../../model/Instructor'
-import { checkAvailability } from '../../utils/index'
+
+import { checkAvailability, populate } from '../../utils/index'
 
 export default async function (req: any, res: any, next: any) {
   try {
@@ -14,7 +12,7 @@ export default async function (req: any, res: any, next: any) {
     // ----------------------------------------------------------
     // Add validation for signing up above
     // ----------------------------------------------------------
-    const { username, password, departmentInfo } = req.body
+    const { username, password } = req.body
 
     // ----------------------------------------------------------
     // password validation
@@ -23,8 +21,8 @@ export default async function (req: any, res: any, next: any) {
     // ----------------------------------------------------------
 
     const studentExist = await checkAvailability({
+      data: username,
       type: 'student',
-      username: username,
     })
 
     if (!studentExist.exists) {
@@ -37,6 +35,10 @@ export default async function (req: any, res: any, next: any) {
       )
 
       if (isPasswordCorrect) {
+        const departmentInfo = await populate(
+          studentExist.result._doc.department._id,
+          'department'
+        )
         const token = jwt.sign(
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60,
