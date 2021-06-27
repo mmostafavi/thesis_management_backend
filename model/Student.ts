@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose'
+import Student from '../controller/Student'
 
-const StudentModel = new Schema({
-  studentNumericId: {
+const StudentSchema = new Schema({
+  numericId: {
     type: Number,
     required: true,
   },
@@ -22,12 +23,12 @@ const StudentModel = new Schema({
   },
 
   grade: {
-    type: String,
+    type: Number,
     required: true,
   },
 
   entrance: {
-    type: Schema.Types.Date,
+    type: Number,
     required: true,
   },
 
@@ -37,4 +38,5 @@ const StudentModel = new Schema({
   },
 })
 
-module.exports = model('Student', StudentModel)
+const StudentModel = model('Student', StudentSchema)
+export default StudentModel

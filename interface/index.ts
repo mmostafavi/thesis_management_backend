@@ -3,27 +3,27 @@ import Instructor from '../controller/Instructor'
 import Thesis from '../controller/Thesis'
 import Student from '../controller/Student'
 
-export interface instructorInput {
-  authData: {
-    username: string
-    password: string
-  }
-  fName: string
-  lName: string
-  specialty: Array<string>
-  rank: number
-  numericId: number
-  departmentInfo: {
-    numericId: number
-    name: string
-    _id: string
-  }
-}
+// export interface instructorInput {
+//   authData: {
+//     username: string
+//     password: string
+//   }
+//   fName: string
+//   lName: string
+//   specialty: Array<string>
+//   rank: number
+//   numericId: number
+//   departmentInfo: {
+//     numericId: number
+//     name: string
+//     _id: string
+//   }
+// }
 
 export interface DepartmentI {
   name?: string
   manager?: string
-  createInstructor(instructorObj: instructorInput): void
+  createInstructor(instructorData: any): void
   manageInstructor(i: Instructor): null
 }
 

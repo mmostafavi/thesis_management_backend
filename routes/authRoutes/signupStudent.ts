@@ -18,36 +18,34 @@ export default async function (req: any, res: any, next: any) {
     // password validation
     // ----------------------------------------------------------
 
-    const instructorObj = {
+    const studentObj = {
       authData: { username, password },
       lName: signupData.lName,
       fName: signupData.fName,
-      rank: signupData.rank,
-      specialty: signupData.specialty,
+      major: signupData.major,
+      grade: +signupData.grade,
+      entrance: +signupData.entrance,
       numericId: signupData.numericId,
-      departmentInfo: {
-        name: departmentInfo.name,
-        numericId: departmentInfo.numericId,
-        _id: departmentInfo._id,
-      },
+      department: departmentInfo._id,
     }
 
+    // creating a department instance
     const departmentInstance = new Department(
       departmentInfo.name,
       departmentInfo.managerId
     )
 
     // checking for availability of instructor
-    const instructorExists = await checkAvailability({
+    const studentExist = await checkAvailability({
       data: username,
-      type: 'instructor',
+      type: 'student',
     })
 
-    if (!instructorExists?.exists) {
-      departmentInstance.createInstructor(instructorObj)
+    if (!studentExist?.exists) {
+      let message = departmentInstance.createStudent(studentObj)
       res.status(200).send(`user with username of ${username} created`)
     } else {
-      res.status(500).send(instructorExists?.message)
+      res.status(500).send(studentExist?.message)
     }
   } catch (error) {
     res.status(500).send(error)

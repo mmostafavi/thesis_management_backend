@@ -22,18 +22,18 @@ export default async function (req: any, res: any, next: any) {
     // password validation
     // ----------------------------------------------------------
 
-    const instructorExists = await checkAvailability({
-      type: 'instructor',
+    const studentExist = await checkAvailability({
+      type: 'student',
       username: username,
     })
 
-    if (!instructorExists.exists) {
-      res.status(403).send(instructorExists.message)
+    if (!studentExist.exists) {
+      res.status(403).send(studentExist.message)
       return next()
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        instructorExists.result._doc.authData.password
+        studentExist.result._doc.authData.password
       )
 
       if (isPasswordCorrect) {
@@ -47,10 +47,10 @@ export default async function (req: any, res: any, next: any) {
         )
 
         res.json({
-          ...instructorExists.result._doc,
+          ...studentExist.result._doc,
           token,
           authData: {
-            ...instructorExists.result._doc.authData,
+            ...studentExist.result._doc.authData,
             password: null,
           },
         })

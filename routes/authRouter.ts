@@ -1,12 +1,12 @@
 import express from 'express'
-import Department from '../controller/Department'
 const authRouter = express.Router()
 
 import signupInstructor from './authRoutes/singupInstructor'
 import loginInstructor from './authRoutes/loginInstructor'
-import { checkAvailability } from '../utils/index'
+import signupStudent from './authRoutes/signupStudent'
 
 authRouter.post('/signup-instructor', signupInstructor)
 authRouter.get('/login-instructor', loginInstructor)
+authRouter.post('/signup-student', signupStudent)
 
 export default authRouter

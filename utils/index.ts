@@ -1,21 +1,40 @@
 import InstructorModel from '../model/Instructor'
+import StudentModel from '../model/Student'
 
 export const checkAvailability = async (payload: any) => {
-  if (payload.type === 'instructor') {
-    const result = await InstructorModel.find({
-      'authData.username': payload.data,
+  const { type, data } = payload
+
+  if (type === 'instructor') {
+    const result = await InstructorModel.findOne({
+      'authData.username': data,
     })
 
-    if (result.length > 0) {
+    if (result) {
       return {
-        passed: false,
-        message: 'user with this username exist',
+        exists: true,
+        message: `user with username: ${data} exists`,
+        result: result,
       }
     }
 
     return {
-      passed: true,
-      message: "user with this username doesn't exist",
+      exists: false,
+      message: `user with username: ${data} doesn't exist`,
+    }
+  } else if (type === 'student') {
+    const result = await StudentModel.findOne({ 'authData.username': data })
+
+    if (result) {
+      return {
+        exists: true,
+        message: `user with username: ${data} exists`,
+        result: result,
+      }
+    }
+
+    return {
+      exists: false,
+      message: `user with username: ${data} doesn't exist`,
     }
   }
 
