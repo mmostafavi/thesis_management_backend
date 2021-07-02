@@ -3,35 +3,31 @@ import { Schema, model } from 'mongoose'
 const ThesisSchema = new Schema({
   title: {
     type: String,
-    required: true,
   },
 
-  approvalData: {
+  approvalDate: {
     type: Schema.Types.Date,
-    required: true,
   },
 
   defenceDate: {
     type: Schema.Types.Date,
-    required: true,
   },
 
   finishDate: {
     type: Schema.Types.Date,
-    required: true,
   },
 
   score: {
     type: Number,
-    required: true,
   },
 
   status: {
     type: String,
+    enum: ['pending'],
     required: true,
   },
 
-  student: {
+  studentId: {
     type: Schema.Types.ObjectId,
     required: true,
   },
@@ -51,6 +47,9 @@ const ThesisSchema = new Schema({
   supervisor: {
     type: Schema.Types.ObjectId,
   },
+
+  referees: [{ type: Schema.Types.ObjectId }],
 })
 
-export default model('Thesis', ThesisSchema)
+const ThesisModel = model('Thesis', ThesisSchema)
+export default ThesisModel

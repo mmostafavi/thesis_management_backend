@@ -1,8 +1,10 @@
 import bcrypt, { hashSync } from 'bcryptjs'
 import InstructorModel from '../model/Instructor'
+import ThesisModel from '../model/Thesis'
 import StudentModel from '../model/Student'
 import Instructor from './Instructor'
 import { DepartmentI } from '../interface/index'
+import { PropertySignature } from 'typescript'
 
 export default class Department implements DepartmentI {
   name: string
@@ -42,47 +44,62 @@ export default class Department implements DepartmentI {
       },
     })
 
-    return instructorDoc.save().catch((err: any) => {
+    instructorDoc.save().catch((err: any) => {
       throw err
     })
   }
 
-  manageInstructor(instructor: Instructor): null {
+  manageInstructor(instructor: Instructor): void {
     // add logic
-    return null
+  }
+
+  private createThesis(thesisObj: any): void {
+    const { studentId } = thesisObj
+
+    const thesisDoc = new ThesisModel({ studentId, status: 'pending' })
+
+    thesisDoc.save().catch((err: any) => {
+      throw err
+    })
   }
 
   // creating a new student
   createStudent(studentData: any): void {
-    const {
-      authData: { username, password },
-      lName,
-      fName,
-      major,
-      grade,
-      entrance,
-      numericId,
-      department,
-    } = studentData
+    ;(async () => {
+      try {
+        const {
+          authData: { username, password },
+          lName,
+          fName,
+          major,
+          grade,
+          entrance,
+          numericId,
+          department,
+        } = studentData
 
-    // hashing the password
-    const hashedPassword = bcrypt.hashSync(password, 12)
-    const studentDoc = new StudentModel({
-      authData: {
-        username,
-        password: hashedPassword,
-      },
-      lName,
-      fName,
-      major,
-      grade,
-      entrance,
-      numericId,
-      department,
-    })
+        // hashing the password
+        const hashedPassword = await bcrypt.hash(password, 12)
+        const studentDoc = new StudentModel({
+          authData: {
+            username,
+            password: hashedPassword,
+          },
+          lName,
+          fName,
+          major,
+          grade,
+          entrance,
+          numericId,
+          department,
+        })
 
-    return studentDoc.save().catch((err: any) => {
-      throw err
-    })
+        const savedDoc = await studentDoc.save()
+
+        await this.createThesis({ studentId: savedDoc._id })
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 }

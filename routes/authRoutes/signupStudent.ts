@@ -1,7 +1,7 @@
 import Department from '../../controller/Department'
 import { checkAvailability } from '../../utils/index'
 
-export default async function (req: any, res: any, next: any) {
+export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
     // Add validation for signing up bellow
@@ -42,7 +42,7 @@ export default async function (req: any, res: any, next: any) {
     })
 
     if (!studentExist?.exists) {
-      let message = departmentInstance.createStudent(studentObj)
+      departmentInstance.createStudent(studentObj)
       res.status(200).send(`user with username of ${username} created`)
     } else {
       res.status(500).send(studentExist?.message)

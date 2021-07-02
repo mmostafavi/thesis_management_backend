@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import { checkAvailability, populate } from '../../utils/index'
 
-export default async function (req: any, res: any, next: any) {
+export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
     // Add validation for signing up bellow
@@ -25,18 +25,17 @@ export default async function (req: any, res: any, next: any) {
       type: 'student',
     })
 
-    if (!studentExist.exists) {
-      res.status(403).send(studentExist.message)
-      return next()
+    if (studentExist!.exists) {
+      res.status(403).send(studentExist!.message)
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        studentExist.result._doc.authData.password
+        studentExist!.result._doc.authData.password
       )
 
       if (isPasswordCorrect) {
         const departmentInfo = await populate(
-          studentExist.result._doc.department._id,
+          studentExist!.result._doc.department._id,
           'department'
         )
         const token = jwt.sign(
@@ -49,10 +48,10 @@ export default async function (req: any, res: any, next: any) {
         )
 
         res.json({
-          ...studentExist.result._doc,
+          ...studentExist!.result._doc,
           token,
           authData: {
-            ...studentExist.result._doc.authData,
+            ...studentExist!.result._doc.authData,
             password: null,
           },
         })

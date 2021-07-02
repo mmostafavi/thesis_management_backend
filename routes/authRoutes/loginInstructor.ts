@@ -5,7 +5,7 @@ import Instructor from '../../controller/Instructor'
 import InstructorModel from '../../model/Instructor'
 import { checkAvailability } from '../../utils/index'
 
-export default async function (req: any, res: any, next: any) {
+export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
     // Add validation for signing up bellow
@@ -28,13 +28,12 @@ export default async function (req: any, res: any, next: any) {
       data: username,
     })
 
-    if (!instructorExists.exists) {
-      res.status(403).send(instructorExists.message)
-      return next()
+    if (instructorExists!.exists) {
+      res.status(403).send(instructorExists!.message)
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        instructorExists.result._doc.authData.password
+        instructorExists!.result._doc.authData.password
       )
 
       if (isPasswordCorrect) {
@@ -42,16 +41,16 @@ export default async function (req: any, res: any, next: any) {
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60,
             username,
-            departmentInfo: instructorExists.result._doc.departmentInfo,
+            departmentInfo: instructorExists!.result._doc.departmentInfo,
           },
           process.env.JWT_KEY!
         )
 
         res.json({
-          ...instructorExists.result._doc,
+          ...instructorExists!.result._doc,
           token,
           authData: {
-            ...instructorExists.result._doc.authData,
+            ...instructorExists!.result._doc.authData,
             password: null,
           },
         })

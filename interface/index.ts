@@ -24,7 +24,8 @@ export interface DepartmentI {
   name?: string
   manager?: string
   createInstructor(instructorData: any): void
-  manageInstructor(i: Instructor): null
+  createStudent(studentData: any): void
+  manageInstructor(i: Instructor): void
 }
 
 export interface InstructorI {
@@ -46,7 +47,7 @@ export interface NativeInstructorI {
 export interface StudentI {
   firstName: string
   lastName: string
-  studentNumber: number
+  numericId: number
   studyField: string
   studyGrade: number
   entranceDate: string

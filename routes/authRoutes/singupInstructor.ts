@@ -1,7 +1,7 @@
 import Department from '../../controller/Department'
 import { checkAvailability } from '../../utils/index'
 
-export default async function (req: any, res: any, next: any) {
+export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
     // Add validation for signing up bellow
