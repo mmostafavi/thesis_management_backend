@@ -2,7 +2,14 @@ import { Schema, model } from 'mongoose'
 
 const ThesisSchema = new Schema({
   title: {
-    type: String,
+    title: {
+      type: String,
+    },
+
+    status: {
+      type: String,
+      enum: ['pending', 'approved'],
+    },
   },
 
   approvalDate: {
@@ -33,19 +40,36 @@ const ThesisSchema = new Schema({
   },
 
   guide: {
-    type: Schema.Types.ObjectId,
+    _id: {
+      type: Schema.Types.ObjectId,
+    },
+
+    status: {
+      type: String,
+      enum: ['pending', 'approved'],
+    },
   },
 
   advisor: {
-    type: Schema.Types.ObjectId,
-  },
+    _id: {
+      type: Schema.Types.ObjectId,
+    },
 
-  judge: {
-    type: Schema.Types.ObjectId,
+    status: {
+      type: String,
+      enum: ['pending', 'approved'],
+    },
   },
 
   supervisor: {
-    type: Schema.Types.ObjectId,
+    _id: {
+      type: Schema.Types.ObjectId,
+    },
+
+    status: {
+      type: String,
+      enum: ['pending', 'approved'],
+    },
   },
 
   referees: [{ type: Schema.Types.ObjectId }],

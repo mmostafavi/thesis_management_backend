@@ -2,10 +2,10 @@ const express = require('express')
 import ThesisModel from '../model/Thesis'
 import ThesisController from '../controller/Thesis'
 
-// import updateThesis from './thesisRoutes/updateThesis'
+import initThesis from './thesisRoutes/initThesis'
 
 const thesisRouter = express.Router()
 
-// thesisRouter.post('/update-thesis', updateThesis)
+thesisRouter.put('/init-thesis', initThesis)
 
 export default thesisRouter

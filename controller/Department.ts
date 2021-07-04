@@ -102,4 +102,20 @@ export default class Department implements DepartmentI {
       }
     })()
   }
+
+  initThesis(initData: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, advisor, guide } = initData
+
+        await ThesisModel.findByIdAndUpdate(thesisId, {
+          'title.status': 'pending',
+          'advisor._id': advisor,
+          'advisor.status': 'pending',
+          'guide._id': guide,
+          'guide.status': 'pending',
+        })
+      } catch (error) {}
+    })()
+  }
 }
