@@ -3,6 +3,7 @@ import Instructor from './Instructor'
 import Thesis from './Thesis'
 
 import { NativeInstructorI } from '../interface/index'
+import ThesisModel from '../model/Thesis'
 
 export default class NativeInstructor
   extends Instructor
@@ -23,13 +24,21 @@ export default class NativeInstructor
     this.department = department
   }
 
-  guiding(thesis: Thesis): null {
-    // add code here
-    return null
+  public static guide(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId } = args
+
+        await ThesisModel.findByIdAndUpdate(thesisId, {
+          'guide.status': 'confirmed',
+        })
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 
-  supervise(thesis: Thesis): null {
+  public static supervise(args: any): void {
     // add code here
-    return null
   }
 }

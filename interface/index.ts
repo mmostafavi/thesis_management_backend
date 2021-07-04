@@ -3,23 +3,6 @@ import Instructor from '../controller/Instructor'
 import Thesis from '../controller/Thesis'
 import Student from '../controller/Student'
 
-// export interface instructorInput {
-//   authData: {
-//     username: string
-//     password: string
-//   }
-//   fName: string
-//   lName: string
-//   specialty: Array<string>
-//   rank: number
-//   numericId: number
-//   departmentInfo: {
-//     numericId: number
-//     name: string
-//     _id: string
-//   }
-// }
-
 export interface DepartmentI {
   name?: string
   manager?: string
@@ -34,15 +17,15 @@ export interface InstructorI {
   lastName?: string
   specialty?: Array<string>
   rank?: number
-  advise?: (t: Thesis) => null
+  advise?: (t: Thesis) => void
   judge?: (t: Thesis) => number
 }
 
 export interface NativeInstructorI {
   id?: number
   department?: Department
-  guiding(t: Thesis): null
-  supervise(t: Thesis): null
+  guide?(inputData: any): void
+  supervise?(inputData: any): void
 }
 
 export interface StudentI {
@@ -52,7 +35,7 @@ export interface StudentI {
   studyField: string
   studyGrade: number
   entranceDate: string
-  assignToDepartment(d: Department): null
+  assignToDepartment(d: Department): void
 }
 
 export interface ThesisI {

@@ -8,7 +8,7 @@ const ThesisSchema = new Schema({
 
     status: {
       type: String,
-      enum: ['pending', 'approved'],
+      enum: ['pending', 'confirmed'],
     },
   },
 
@@ -46,7 +46,7 @@ const ThesisSchema = new Schema({
 
     status: {
       type: String,
-      enum: ['pending', 'approved'],
+      enum: ['pending', 'confirmed'],
     },
   },
 
@@ -57,7 +57,7 @@ const ThesisSchema = new Schema({
 
     status: {
       type: String,
-      enum: ['pending', 'approved'],
+      enum: ['pending', 'confirmed'],
     },
   },
 
@@ -68,7 +68,7 @@ const ThesisSchema = new Schema({
 
     status: {
       type: String,
-      enum: ['pending', 'approved'],
+      enum: ['pending', 'confirmed'],
     },
   },
 

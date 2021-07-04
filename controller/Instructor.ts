@@ -1,5 +1,6 @@
 import Thesis from './Thesis'
 import { InstructorI } from '../interface/index'
+import ThesisModel from '../model/Thesis'
 
 export default class Instructor implements InstructorI {
   firstName: string
@@ -19,12 +20,21 @@ export default class Instructor implements InstructorI {
     this.rank = rank
   }
 
-  advise(thesis: Thesis): null {
-    // advising the student
-    return null
+  public static advise(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId } = args
+
+        await ThesisModel.findByIdAndUpdate(thesisId, {
+          'advisor.status': 'confirmed',
+        })
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 
-  judge(thesis: Thesis): number {
+  public static judge(args: any): number {
     //do sth
     return 0
   }
