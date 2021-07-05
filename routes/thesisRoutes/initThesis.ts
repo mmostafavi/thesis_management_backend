@@ -1,5 +1,4 @@
 import Department from '../../controller/Department'
-import Student from '../../controller/Student'
 import { checkAvailability, populate } from '../../utils'
 
 export default async (req: any, res: any) => {

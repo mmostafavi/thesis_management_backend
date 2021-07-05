@@ -9,6 +9,7 @@ export interface DepartmentI {
   createInstructor(instructorData: any): void
   createStudent(studentData: any): void
   initThesis?(initData: any): void
+  confirmThesis?(confirmationData: any): void
   manageInstructor(i: Instructor): void
 }
 

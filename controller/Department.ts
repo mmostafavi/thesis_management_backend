@@ -147,4 +147,22 @@ export default class Department implements DepartmentI {
       } catch (error) {}
     })()
   }
+
+  public static confirmTitle(args: any) {
+    ;(async () => {
+      try {
+        const { thesisId } = args
+
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            status: 'titled',
+            'title.status': 'confirmed',
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
+  }
 }
