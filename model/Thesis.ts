@@ -30,7 +30,13 @@ const ThesisSchema = new Schema({
 
   status: {
     type: String,
-    enum: ['pending'],
+    enum: [
+      'pending',
+      'initiated_pending',
+      'initiated',
+      'titled_pending',
+      'titled',
+    ],
     required: true,
   },
 

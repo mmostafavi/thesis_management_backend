@@ -47,6 +47,11 @@ const StudentSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+
+  thesisId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
 })
 
 const StudentModel = model('Student', StudentSchema)

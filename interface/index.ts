@@ -8,7 +8,7 @@ export interface DepartmentI {
   manager?: string
   createInstructor(instructorData: any): void
   createStudent(studentData: any): void
-  initThesis(initData: any): void
+  initThesis?(initData: any): void
   manageInstructor(i: Instructor): void
 }
 

@@ -32,16 +32,22 @@ export default class Student implements StudentI {
     return null
   }
 
-  createThesis(thesisInfo: any): void {
-    const { title, studentId } = thesisInfo
-    const thesisDoc = new ThesisModel({
-      title,
-      status: 'pending',
-      student: studentId,
-    })
+  public static setTitle(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, title } = args
 
-    thesisDoc.save().catch((err: any) => {
-      throw err
-    })
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            'title.title': title,
+            'title.status': 'pending',
+            status: 'titled_pending',
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 }

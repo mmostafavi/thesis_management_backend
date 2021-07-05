@@ -54,13 +54,22 @@ export default class Department implements DepartmentI {
   }
 
   private createThesis(thesisObj: any): void {
-    const { studentId } = thesisObj
+    ;(async () => {
+      try {
+        const { studentId } = thesisObj
 
-    const thesisDoc = new ThesisModel({ studentId, status: 'pending' })
-
-    thesisDoc.save().catch((err: any) => {
-      throw err
-    })
+        const thesisDoc = new ThesisModel({ studentId, status: 'pending' })
+        const savedThesis = await thesisDoc.save()
+        await StudentModel.updateOne(
+          { _id: studentId },
+          {
+            thesisId: savedThesis._id,
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 
   // creating a new student
@@ -103,17 +112,37 @@ export default class Department implements DepartmentI {
     })()
   }
 
-  initThesis(initData: any): void {
+  public static initThesis(initData: any): void {
     ;(async () => {
       try {
         const { thesisId, advisor, guide } = initData
 
         await ThesisModel.findByIdAndUpdate(thesisId, {
-          'title.status': 'pending',
+          status: 'initiated_pending',
           'advisor._id': advisor,
           'advisor.status': 'pending',
           'guide._id': guide,
           'guide.status': 'pending',
+        })
+
+        await InstructorModel.findByIdAndUpdate(advisor, {
+          $push: {
+            roles: {
+              role: 'advisor',
+              status: 'pending',
+              thesisId: thesisId,
+            },
+          },
+        })
+
+        await InstructorModel.findByIdAndUpdate(guide, {
+          $push: {
+            roles: {
+              role: 'guide',
+              status: 'pending',
+              thesisId: thesisId,
+            },
+          },
         })
       } catch (error) {}
     })()

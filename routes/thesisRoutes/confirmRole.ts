@@ -33,9 +33,9 @@ export default async (req: any, res: any) => {
     }
 
     if (role === 'guide') {
-      NativeInstructor.guide({ thesisId })
+      NativeInstructor.guide({ thesisId, instructorId })
     } else if (role === 'advisor') {
-      Instructor.advise({ thesisId })
+      Instructor.advise({ thesisId, instructorId })
     }
 
     return res

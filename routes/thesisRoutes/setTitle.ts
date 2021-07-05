@@ -12,15 +12,16 @@ export default async (req: any, res: any) => {
     // Add validation for creating a thesis above
     // ----------------------------------------------------------
 
-    const { thesisId, advisor, guide } = req.body
+    let { thesisId, studentId, title } = req.body
+    title = title.trim()
 
     // checking for validity of ids
     const dataIsValid = await checkAvailability({
-      type: 'init_thesis_checks',
+      type: 'set_title_checks',
       data: {
         thesisId,
-        advisor,
-        guide,
+        studentId,
+        title,
       },
     })
 
@@ -28,14 +29,8 @@ export default async (req: any, res: any) => {
       return res.status(500).send(dataIsValid?.message)
     }
 
-    // fetch department info from coming req later
-    const departmentInfo = {
-      groupManager: 'id',
-      name: 'Computer',
-    }
-
-    Department.initThesis({ thesisId, advisor, guide })
-    res.status(200).send('thesis initiated successfully')
+    Student.setTitle({ thesisId, title })
+    res.status(200).send('successfully updated the title')
   } catch (error) {
     throw error
   }

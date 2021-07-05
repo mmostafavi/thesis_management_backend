@@ -67,14 +67,14 @@ export const checkAvailability = async (payload: any) => {
       if (result) {
         return {
           exists: true,
-          message: `thesis with id: ${data} exists`,
+          message: `thesis with this id already exists`,
           result,
         }
       }
 
       return {
         exists: false,
-        message: `thesis with id: ${data} doesn't exist`,
+        message: `thesis with this id doesn't exist`,
       }
     } else if (type === 'init_thesis_checks') {
       // ----------------------------------------------------
@@ -86,7 +86,7 @@ export const checkAvailability = async (payload: any) => {
       if (!isValidObjectId(thesisId)) {
         return {
           exists: false,
-          message: `invalid id: ${thesisId}`,
+          message: `invalid thesis id`,
         }
       }
 
@@ -94,7 +94,7 @@ export const checkAvailability = async (payload: any) => {
       if (!fetchedThesis) {
         return {
           exists: false,
-          message: `thesis with id: ${thesisId} doesn't exists`,
+          message: `thesis with this id doesn't exists`,
         }
       }
 
@@ -102,7 +102,7 @@ export const checkAvailability = async (payload: any) => {
       if (!isValidObjectId(advisor)) {
         return {
           exists: false,
-          message: `invalid id: ${advisor}`,
+          message: `invalid instructor id`,
         }
       }
 
@@ -110,7 +110,7 @@ export const checkAvailability = async (payload: any) => {
       if (!fetchedAdvisor) {
         return {
           exists: false,
-          message: `Advisor Instructor with id: ${advisor} doesn't exists`,
+          message: `advisor instructor with this id doesn't exists`,
         }
       }
 
@@ -118,7 +118,7 @@ export const checkAvailability = async (payload: any) => {
       if (!isValidObjectId(guide)) {
         return {
           exists: false,
-          message: `invalid id: ${guide}`,
+          message: `invalid instructor id`,
         }
       }
 
@@ -126,7 +126,14 @@ export const checkAvailability = async (payload: any) => {
       if (!fetchedGuide) {
         return {
           exists: false,
-          message: `Guide Instructor with id: ${guide} doesn't exists`,
+          message: `guide instructor with this id doesn't exists`,
+        }
+      }
+
+      if (fetchedThesis._doc.status !== 'pending') {
+        return {
+          exists: false,
+          message: `thesis with this id isn't in "pending" status`,
         }
       }
 
@@ -145,14 +152,14 @@ export const checkAvailability = async (payload: any) => {
       if (!isValidObjectId(thesisId)) {
         return {
           exists: false,
-          message: `thesis id: ${thesisId} is not valid`,
+          message: `thesis id is not valid`,
         }
       }
 
       if (!isValidObjectId(instructorId)) {
         return {
           exists: false,
-          message: `instructor id: ${thesisId} is not valid`,
+          message: `instructor id is not valid`,
         }
       }
 
@@ -162,7 +169,7 @@ export const checkAvailability = async (payload: any) => {
       if (!fetchedThesis) {
         return {
           exists: false,
-          message: `thesis with id: ${thesisId} doesn't exist`,
+          message: `thesis with this id doesn't exist`,
         }
       }
 
@@ -172,7 +179,7 @@ export const checkAvailability = async (payload: any) => {
       if (!fetchedInstructor) {
         return {
           exists: false,
-          message: `instructor with id: ${instructorId} doesn't exist`,
+          message: `instructor with this id doesn't exist`,
         }
       }
 
@@ -180,7 +187,7 @@ export const checkAvailability = async (payload: any) => {
       if (fetchedThesis._doc[role]._id.toString() !== instructorId) {
         return {
           exists: false,
-          message: `instructor with id: ${instructorId} isn't assigned to thesis with id: ${thesisId}`,
+          message: `instructor with this username:"${fetchedInstructor._doc.authData.username}" isn't assigned to thesis with given id`,
         }
       }
 
@@ -188,13 +195,92 @@ export const checkAvailability = async (payload: any) => {
       if (fetchedThesis._doc[role].status !== 'pending') {
         return {
           exists: false,
-          message: `the status for role: "${role}" isn't "pending" in thesis with id: ${thesisId}`,
+          message: `the status for role: "${role}" isn't "pending" in thesis with given id`,
         }
       }
 
       return {
         exists: true,
-        message: `instructor with id: ${instructorId} is assigned to thesis with id: ${thesisId}`,
+        message: `instructor with username: "${fetchedInstructor._doc.authData.username}" is assigned to thesis with id: ${thesisId}`,
+      }
+    } else if (type === 'set_title_checks') {
+      // ------------------------------------------------------------
+      // checks associated with set title resolver
+      // ------------------------------------------------------------
+      let { thesisId, studentId, title } = data
+
+      // removing the whitespace from start and end of title string
+      title = title.trim()
+
+      // checks the validity of ids
+      if (!isValidObjectId(thesisId)) {
+        return {
+          exists: false,
+          message: `given thesis Id is not valid`,
+        }
+      }
+
+      if (!isValidObjectId(studentId)) {
+        return {
+          exists: false,
+          message: `given student Id is not valid`,
+        }
+      }
+
+      // checks availability of thesis
+      const fetchedThesis = await ThesisModel.findById(thesisId)
+      if (!fetchedThesis) {
+        return {
+          exists: false,
+          message: `thesis with given id doesn't exist`,
+        }
+      }
+
+      // checks availability of student
+      const fetchedStudent = await StudentModel.findById(studentId)
+      if (!fetchedStudent) {
+        return {
+          exists: false,
+          message: `student with given id doesn't exist`,
+        }
+      }
+
+      // checks whether student is assigned to thesis or not
+      if (fetchedThesis._doc.studentId.toString() !== studentId) {
+        return {
+          exists: false,
+          message: `student with numericId: ${fetchedStudent._doc.numericId} is not assigned to thesis with given id`,
+        }
+      }
+
+      // checks whether thesis is in the "initiated" status
+      if (fetchedThesis._doc.status !== 'initiated') {
+        return {
+          exists: false,
+          message: `the thesis is not in "initiated" status`,
+        }
+      }
+
+      //checks validity of the title
+      if (title.length <= 8 || title.length >= 50) {
+        return {
+          exists: false,
+          message:
+            'title should be longer than 8 characters and shorter than 50 characters',
+        }
+      } else if (
+        title.split(' ').length >= 10 ||
+        title.split(' ').length <= 2
+      ) {
+        return {
+          exists: false,
+          message: 'total words used in title should be between 3 and 9',
+        }
+      }
+
+      return {
+        exists: true,
+        message: 'given data is valid',
       }
     }
   } catch (error) {

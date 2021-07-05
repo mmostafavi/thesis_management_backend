@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Types } from 'mongoose'
 
 const InstructorSchema = new Schema({
   authData: {
@@ -52,6 +52,22 @@ const InstructorSchema = new Schema({
       required: false,
     },
   },
+
+  roles: [
+    {
+      role: {
+        type: String,
+        enum: ['guide', 'advisor', 'supervisor', 'referee'],
+      },
+
+      status: {
+        type: String,
+        enum: ['pending, confirmed'],
+      },
+
+      thesisId: Schema.Types.ObjectId,
+    },
+  ],
 })
 
 const InstructorModel = model('Instructor', InstructorSchema)
