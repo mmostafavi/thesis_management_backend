@@ -33,7 +33,7 @@ export default async function (req: any, res: any) {
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        instructorExists!.result._doc.authData.password
+        instructorExists?.result._doc.authData.password
       )
 
       if (isPasswordCorrect) {

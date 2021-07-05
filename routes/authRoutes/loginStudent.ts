@@ -25,17 +25,17 @@ export default async function (req: any, res: any) {
       type: 'student',
     })
 
-    if (studentExist!.exists) {
+    if (studentExist?.exists) {
       res.status(403).send(studentExist!.message)
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        studentExist!.result._doc.authData.password
+        studentExist.result?._doc.authData.password
       )
 
       if (isPasswordCorrect) {
         const departmentInfo = await populate(
-          studentExist!.result._doc.department._id,
+          studentExist?.result?._doc.department._id,
           'department'
         )
         const token = jwt.sign(
