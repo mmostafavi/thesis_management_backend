@@ -62,7 +62,7 @@ const InstructorSchema = new Schema({
 
       status: {
         type: String,
-        enum: ['pending, confirmed'],
+        enum: ['pending, confirmed', 'finished'],
       },
 
       thesisId: Schema.Types.ObjectId,

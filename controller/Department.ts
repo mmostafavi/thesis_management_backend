@@ -165,4 +165,40 @@ export default class Department implements DepartmentI {
       }
     })()
   }
+
+  public static setReferees(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, referees } = args
+
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            $set: {
+              referees: referees,
+            },
+
+            status: 'referees_assigned',
+          }
+        )
+
+        for (let referee of referees) {
+          await InstructorModel.updateOne(
+            { _id: referee },
+            {
+              $push: {
+                roles: {
+                  role: 'referee',
+                  status: 'confirmed',
+                  thesisId: thesisId,
+                },
+              },
+            }
+          )
+        }
+      } catch (error) {
+        throw error
+      }
+    })()
+  }
 }

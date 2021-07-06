@@ -2,7 +2,7 @@ import StudentModel from '../model/Student'
 
 export default (data: any) => {
   // -----------------------------------------------------------------
-  // checks  whether an instructor with given username exists or not
+  // checks whether a student with given username exists or not
   // -----------------------------------------------------------------
 
   return (async () => {

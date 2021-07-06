@@ -11,15 +11,14 @@ export default async (req: any, res: any) => {
     // Add validation for creating a thesis above
     // ----------------------------------------------------------
 
-    const { thesisId, advisor, guide } = req.body
+    const { thesisId, referees } = req.body
 
     // checking for validity of ids
     const dataIsValid = await checkAvailability({
-      type: 'init_thesis_checks',
+      type: 'set_referees_checks',
       data: {
         thesisId,
-        advisor,
-        guide,
+        referees,
       },
     })
 
@@ -27,8 +26,8 @@ export default async (req: any, res: any) => {
       return res.status(500).send(dataIsValid?.message)
     }
 
-    Department.initThesis({ thesisId, advisor, guide })
-    res.status(200).send('thesis initiated successfully')
+    Department.setReferees({ thesisId, referees })
+    res.status(200).send('referees assigned successfully')
   } catch (error) {
     throw error
   }

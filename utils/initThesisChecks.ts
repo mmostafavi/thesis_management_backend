@@ -4,7 +4,7 @@ import { isValidObjectId } from 'mongoose'
 
 export default (data: any) => {
   // -----------------------------------------------------------------
-  // checks  whether an instructor with given username exists or not
+  // checks checks associated with init thesis resolver
   // -----------------------------------------------------------------
 
   return (async () => {
