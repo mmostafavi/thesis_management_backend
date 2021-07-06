@@ -38,6 +38,7 @@ const ThesisSchema = new Schema({
       'titled',
       'confirmed_by_guide',
       'referees_assigned',
+      'defence_date_set',
     ],
     required: true,
   },

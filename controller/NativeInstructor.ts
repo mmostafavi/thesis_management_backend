@@ -76,7 +76,7 @@ export default class NativeInstructor
           { _id: thesisId },
           {
             status: 'confirmed_by_guide',
-            approvalDate: new Date().toUTCString(),
+            approvalDate: new Date().toISOString(),
           }
         )
       } catch (error) {

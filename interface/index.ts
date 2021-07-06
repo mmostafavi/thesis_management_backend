@@ -10,6 +10,7 @@ export interface DepartmentI {
   createStudent(studentData: any): void
   initThesis?(initData: any): void
   confirmThesis?(confirmationData: any): void
+  setDefenceDate?(setDefenceDate: any): void
   manageInstructor(i: Instructor): void
 }
 

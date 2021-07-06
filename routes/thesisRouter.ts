@@ -6,6 +6,7 @@ import setTitle from './thesisRoutes/setTitle'
 import confirmTitle from './thesisRoutes/confirmTitle'
 import confirmThesis from './thesisRoutes/confirmThesis'
 import setReferees from './thesisRoutes/setReferees'
+import setDefenceDate from './thesisRoutes/setDefenceDate'
 
 const thesisRouter = express.Router()
 
@@ -15,5 +16,6 @@ thesisRouter.put('/set-title', setTitle)
 thesisRouter.post('/confirm-title', confirmTitle)
 thesisRouter.post('/confirm-thesis', confirmThesis)
 thesisRouter.put('/set-referees', setReferees)
+thesisRouter.put('/set-defence-date', setDefenceDate)
 
 export default thesisRouter

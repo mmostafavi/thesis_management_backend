@@ -7,8 +7,9 @@ import confirmRoleChecks from './confirmRoleChecks'
 import setTitleChecks from './setTitleChecks'
 import { populate } from './populate'
 import confirmTitleChecks from './confirmTitleChecks'
-import confirmThesisChecks from './confrimThesisChecks'
+import confirmThesisChecks from './confirmThesisChecks'
 import setRefereesChecks from './setRefereesChecks'
+import setDefenceDateChecks from './setDefenceDateChecks'
 export const checkAvailability: any = (payload: any) => {
   try {
     const { type, data } = payload
@@ -57,6 +58,11 @@ export const checkAvailability: any = (payload: any) => {
       // ------------------------------------------------------------
       // checks associated with set Referees resolver
       return setRefereesChecks(data)
+      // ------------------------------------------------------------
+    } else if (type === 'set_defence_date_checks') {
+      // ------------------------------------------------------------
+      // checks associated with set Referees resolver
+      return setDefenceDateChecks(data)
       // ------------------------------------------------------------
     }
 

@@ -201,4 +201,37 @@ export default class Department implements DepartmentI {
       }
     })()
   }
+
+  public static setDefenceDate(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, defenceDate, supervisor } = args
+
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            status: 'defence_date_set',
+            defenceDate: new Date(defenceDate).toISOString(),
+            'supervisor._id': supervisor,
+            'supervisor.status': 'confirmed',
+          }
+        )
+
+        await InstructorModel.updateOne(
+          { _id: supervisor },
+          {
+            $push: {
+              roles: {
+                role: 'supervisor',
+                status: 'confirmed',
+                thesisId: thesisId,
+              },
+            },
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
+  }
 }
