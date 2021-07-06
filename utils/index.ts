@@ -10,6 +10,7 @@ import confirmTitleChecks from './confirmTitleChecks'
 import confirmThesisChecks from './confirmThesisChecks'
 import setRefereesChecks from './setRefereesChecks'
 import setDefenceDateChecks from './setDefenceDateChecks'
+import refereeConfirmationChecks from './refereeConfirmationChecks'
 export const checkAvailability: any = (payload: any) => {
   try {
     const { type, data } = payload
@@ -51,7 +52,7 @@ export const checkAvailability: any = (payload: any) => {
       // ------------------------------------------------------------
     } else if (type === 'confirm_thesis_checks') {
       // ------------------------------------------------------------
-      // checks associated with confirm title resolver
+      // checks associated with confirm thesis resolver
       return confirmThesisChecks(data)
       // ------------------------------------------------------------
     } else if (type === 'set_referees_checks') {
@@ -61,8 +62,13 @@ export const checkAvailability: any = (payload: any) => {
       // ------------------------------------------------------------
     } else if (type === 'set_defence_date_checks') {
       // ------------------------------------------------------------
-      // checks associated with set Referees resolver
+      // checks associated with set defence date resolver
       return setDefenceDateChecks(data)
+      // ------------------------------------------------------------
+    } else if (type === 'referee_confirmation_checks') {
+      // ------------------------------------------------------------
+      // checks associated with referee confirmation resolver
+      return refereeConfirmationChecks(data)
       // ------------------------------------------------------------
     }
 

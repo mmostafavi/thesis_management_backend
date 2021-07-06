@@ -171,11 +171,19 @@ export default class Department implements DepartmentI {
       try {
         const { thesisId, referees } = args
 
+        // transforming referee array to storable format
+        let transformedReferees = referees.map((referee: any) => {
+          return {
+            _id: referee,
+            confirmation: false,
+          }
+        })
+
         await ThesisModel.updateOne(
           { _id: thesisId },
           {
             $set: {
-              referees: referees,
+              referees: transformedReferees,
             },
 
             status: 'referees_assigned',

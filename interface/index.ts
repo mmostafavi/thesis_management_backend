@@ -20,7 +20,7 @@ export interface InstructorI {
   specialty?: Array<string>
   rank?: number
   advise?: (t: Thesis) => void
-  judge?: (t: Thesis) => number
+  judge?: (t: Thesis) => void
 }
 
 export interface NativeInstructorI {

@@ -39,6 +39,7 @@ const ThesisSchema = new Schema({
       'confirmed_by_guide',
       'referees_assigned',
       'defence_date_set',
+      'referees_confirmed',
     ],
     required: true,
   },
@@ -81,7 +82,15 @@ const ThesisSchema = new Schema({
     },
   },
 
-  referees: [{ type: Schema.Types.ObjectId }],
+  referees: [
+    {
+      _id: Schema.Types.ObjectId,
+      confirmation: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
 })
 
 const ThesisModel = model('Thesis', ThesisSchema)

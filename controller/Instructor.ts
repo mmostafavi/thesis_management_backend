@@ -2,6 +2,7 @@ import Thesis from './Thesis'
 import { InstructorI } from '../interface/index'
 import ThesisModel from '../model/Thesis'
 import InstructorModel from '../model/Instructor'
+import thesisRouter from '../routes/thesisRouter'
 
 export default class Instructor implements InstructorI {
   firstName: string
@@ -61,8 +62,41 @@ export default class Instructor implements InstructorI {
     })()
   }
 
-  public static judge(args: any): number {
-    //do sth
-    return 0
+  public static judge(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, referee } = args
+
+        await ThesisModel.updateOne(
+          {
+            _id: thesisId,
+            referees: {
+              $elemMatch: {
+                _id: referee,
+              },
+            },
+          },
+          {
+            'referees.$.confirmation': true,
+          }
+        )
+
+        const fetchedThesis = await ThesisModel.findById(thesisId)
+
+        const haveAllRefereesConfirmed = fetchedThesis._doc.referees.every(
+          (referee: any) => referee.confirmation
+        )
+        if (haveAllRefereesConfirmed) {
+          await ThesisModel.updateOne(
+            { _id: thesisId },
+            {
+              status: 'referees_confirmed',
+            }
+          )
+        }
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 }
