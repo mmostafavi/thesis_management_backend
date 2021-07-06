@@ -7,7 +7,7 @@ import confirmRoleChecks from './confirmRoleChecks'
 import setTitleChecks from './setTitleChecks'
 import { populate } from './populate'
 import confirmTitleChecks from './confirmTitleChecks'
-
+import confirmThesisChecks from './confrimThesisChecks'
 export const checkAvailability: any = (payload: any) => {
   try {
     const { type, data } = payload
@@ -43,7 +43,15 @@ export const checkAvailability: any = (payload: any) => {
       return setTitleChecks(data)
       // ------------------------------------------------------------
     } else if (type === 'confirm_title_checks') {
+      // ------------------------------------------------------------
+      // checks associated with confirm title resolver
       return confirmTitleChecks(data)
+      // ------------------------------------------------------------
+    } else if (type === 'confirm_thesis_checks') {
+      // ------------------------------------------------------------
+      // checks associated with confirm title resolver
+      return confirmThesisChecks(data)
+      // ------------------------------------------------------------
     }
 
     return {

@@ -36,6 +36,8 @@ const ThesisSchema = new Schema({
       'initiated',
       'titled_pending',
       'titled',
+      'confirmed_by_guide',
+      'referees_assigned',
     ],
     required: true,
   },

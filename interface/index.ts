@@ -27,6 +27,7 @@ export interface NativeInstructorI {
   department?: Department
   guide?(inputData: any): void
   supervise?(inputData: any): void
+  confirmThesis?(inputData: any): void
 }
 
 export interface StudentI {
