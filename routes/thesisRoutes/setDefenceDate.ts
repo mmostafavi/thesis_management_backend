@@ -2,17 +2,23 @@ import { checkAvailability, populate } from '../../utils'
 
 import Department from '../../controller/Department'
 
+import isManager from '../../utils/validators/isManager'
+
 export default async (req: any, res: any) => {
   try {
     // ----------------------------------------------------------
     // Add validation for creating a thesis bellow
     // ----------------------------------------------------------
-    // here....
+    if (!isManager(req.isAuth, req.userData, req.body.managerId)) {
+      return res
+        .status(403)
+        .send("this user doesn't have permission for this action")
+    }
     // ----------------------------------------------------------
     // Add validation for creating a thesis above
     // ----------------------------------------------------------
 
-    let { thesisId, defenceDate, supervisor } = req.body
+    let { thesisId, defenceDate, supervisor, managerId } = req.body
 
     // checking for validity of ids
     const dataIsValid = await checkAvailability({

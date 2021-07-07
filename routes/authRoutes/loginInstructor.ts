@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import Instructor from '../../controller/Instructor'
 import InstructorModel from '../../model/Instructor'
-import { checkAvailability } from '../../utils/index'
+import { checkAvailability, populate } from '../../utils/index'
 
 export default async function (req: any, res: any) {
   try {
@@ -28,7 +28,7 @@ export default async function (req: any, res: any) {
       data: username,
     })
 
-    if (instructorExists!.exists) {
+    if (!instructorExists!.exists) {
       res.status(403).send(instructorExists!.message)
     } else {
       const isPasswordCorrect = await bcrypt.compare(
@@ -36,14 +36,24 @@ export default async function (req: any, res: any) {
         instructorExists?.result._doc.authData.password
       )
 
+      const populatedDepartment = await populate(
+        instructorExists!.result._doc.departmentInfo._id,
+        'department'
+      )
+
       if (isPasswordCorrect) {
         const token = jwt.sign(
           {
-            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            tokenType: 'instructor',
             username,
-            departmentInfo: instructorExists!.result._doc.departmentInfo,
+            departmentInfo: populatedDepartment,
+            userId: instructorExists.result.id.toString(),
+            numericId: instructorExists.result._doc.numericId,
+            fName: instructorExists.result._doc.fName,
+            lName: instructorExists.result._doc.lName,
           },
-          process.env.JWT_KEY!
+          process.env.JWT_KEY!,
+          { expiresIn: '1h' }
         )
 
         res.json({

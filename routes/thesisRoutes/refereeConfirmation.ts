@@ -2,13 +2,18 @@ import { checkAvailability, populate } from '../../utils'
 
 import Department from '../../controller/Department'
 import Instructor from '../../controller/Instructor'
+import isInstructor from '../../utils/validators/isInstructor'
 
 export default async (req: any, res: any) => {
   try {
     // ----------------------------------------------------------
     // Add validation for creating a thesis bellow
     // ----------------------------------------------------------
-    // here....
+    if (!isInstructor(req.isAuth, req.userData, req.body.referee)) {
+      return res
+        .status(403)
+        .send("this user doesn't have permission for this action")
+    }
     // ----------------------------------------------------------
     // Add validation for creating a thesis above
     // ----------------------------------------------------------

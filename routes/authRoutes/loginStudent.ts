@@ -6,11 +6,11 @@ import { checkAvailability, populate } from '../../utils/index'
 export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
-    // Add validation for signing up bellow
+    // Add validation for logging in bellow
     // ----------------------------------------------------------
     // here....
     // ----------------------------------------------------------
-    // Add validation for signing up above
+    // Add validation for logging in above
     // ----------------------------------------------------------
     const { username, password } = req.body
 
@@ -25,7 +25,7 @@ export default async function (req: any, res: any) {
       type: 'student',
     })
 
-    if (studentExist?.exists) {
+    if (!studentExist?.exists) {
       res.status(403).send(studentExist!.message)
     } else {
       const isPasswordCorrect = await bcrypt.compare(
@@ -40,11 +40,19 @@ export default async function (req: any, res: any) {
         )
         const token = jwt.sign(
           {
-            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            tokenType: 'student',
             username,
             departmentInfo,
+            userId: studentExist.result.id.toString(),
+            numericId: studentExist.result._doc.numericId,
+            fName: studentExist.result._doc.fName,
+            lName: studentExist.result._doc.lName,
+            thesisId: studentExist.result._doc.thesisId,
           },
-          process.env.JWT_KEY!
+          process.env.JWT_KEY!,
+          {
+            expiresIn: '1h',
+          }
         )
 
         res.json({

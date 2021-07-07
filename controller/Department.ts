@@ -271,7 +271,6 @@ export default class Department implements DepartmentI {
           const fetchedInstructor = await InstructorModel.findById(userId)
 
           for (let role of fetchedInstructor._doc.roles) {
-            console.log('role: ', role)
             const populatedThesis = await populate(role.thesisId, 'thesis')
             transformedFetchedTheses.push({
               ...role._doc,

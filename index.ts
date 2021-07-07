@@ -5,6 +5,9 @@ import connectToDatabase from './model/connect'
 import dotenv from 'dotenv'
 dotenv.config()
 
+// auth middleware
+import auth from './middleware/auth'
+
 interface ServerI {
   start(): void
 }
@@ -17,13 +20,14 @@ export default class Server {
 
   public start() {
     this.connectToDatabase()
+    console.log(`server is listening in Port: ${process.env.PORT}`)
   }
 
   private initializeServer = () => {
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
+    app.use(auth)
     app.listen(process.env.PORT)
-    console.log(`server is listening in Port: ${process.env.PORT}`)
   }
 
   private connectToDatabase = () => {

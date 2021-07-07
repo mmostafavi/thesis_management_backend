@@ -10,7 +10,8 @@ export default async (req: any, res: any) => {
     // ----------------------------------------------------------
     // Add validation for creating a thesis above
     // ----------------------------------------------------------
-
+    console.log('req.isAuth: ', req.isAuth)
+    console.log('req.decodedToken: ', req.userData)
     const { userType, userId } = req.body
 
     // checking for validity of ids

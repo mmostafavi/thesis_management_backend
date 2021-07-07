@@ -1,12 +1,19 @@
 import Department from '../../controller/Department'
 import { checkAvailability } from '../../utils/index'
+import isManager from '../../utils/validators/isManager'
 
 export default async function (req: any, res: any) {
   try {
     // ----------------------------------------------------------
     // Add validation for signing up bellow
     // ----------------------------------------------------------
-    // here....
+    if (
+      !isManager(req.isAuth, req.userData, req.body.departmentInfo.managerId)
+    ) {
+      return res
+        .status(403)
+        .send("this user doesn't have permission for this action")
+    }
     // ----------------------------------------------------------
     // Add validation for signing up above
     // ----------------------------------------------------------
