@@ -11,7 +11,8 @@ export interface DepartmentI {
   initThesis?(initData: any): void
   confirmThesis?(confirmationData: any): void
   setDefenceDate?(setDefenceDate: any): void
-  manageInstructor(i: Instructor): void
+  manageInstructor?(i: any): void
+  getThesis?(getThesisData: any): any
 }
 
 export interface InstructorI {

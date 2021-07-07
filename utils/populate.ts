@@ -2,6 +2,7 @@ import { isValidObjectId } from 'mongoose'
 
 import StudentModel from '../model/Student'
 import DepartmentModel from '../model/Department'
+import ThesisModel from '../model/Thesis'
 
 // fetches the associated doc with given id and returns that
 export const populate = async (_id: string, type: string) => {
@@ -18,6 +19,9 @@ export const populate = async (_id: string, type: string) => {
       return fetchedDepartmentDoc._doc
     } else if (type === 'student') {
       const fetchedStudent = await StudentModel.findById(_id)
+      return fetchedStudent._doc
+    } else if (type === 'thesis') {
+      const fetchedStudent = await ThesisModel.findById(_id)
       return fetchedStudent._doc
     }
   } catch (error) {

@@ -5,6 +5,7 @@ import StudentModel from '../model/Student'
 import Instructor from './Instructor'
 import { DepartmentI } from '../interface/index'
 import { PropertySignature } from 'typescript'
+import { populate } from '../utils'
 
 export default class Department implements DepartmentI {
   name: string
@@ -250,5 +251,53 @@ export default class Department implements DepartmentI {
         throw error
       }
     })()
+  }
+
+  public static getThesis(args: any): any {
+    const theses = (async () => {
+      try {
+        const { userId, userType } = args
+
+        let transformedFetchedTheses = []
+        if (userType === 'student') {
+          const fetchedTheses = await ThesisModel.find({ studentId: userId })
+          transformedFetchedTheses = fetchedTheses.map((thesis: any) => ({
+            role: 'student',
+            thesis: {
+              ...thesis._doc,
+            },
+          }))
+        } else if (userType === 'instructor') {
+          const fetchedInstructor = await InstructorModel.findById(userId)
+
+          for (let role of fetchedInstructor._doc.roles) {
+            console.log('role: ', role)
+            const populatedThesis = await populate(role.thesisId, 'thesis')
+            transformedFetchedTheses.push({
+              ...role._doc,
+              thesisId: undefined,
+              thesis: {
+                ...populatedThesis,
+              },
+            })
+          }
+        } else if (userType === 'manager') {
+          const fetchedTheses = await ThesisModel.find({})
+
+          transformedFetchedTheses = fetchedTheses.map((thesis: any) => ({
+            role: 'manager',
+            thesis: {
+              ...thesis._doc,
+            },
+          }))
+        }
+
+        return transformedFetchedTheses
+      } catch (error) {
+        throw error
+      }
+    })()
+
+    return theses
   }
 }
