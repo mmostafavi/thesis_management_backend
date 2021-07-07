@@ -151,15 +151,24 @@ export default class Department implements DepartmentI {
   public static confirmTitle(args: any) {
     ;(async () => {
       try {
-        const { thesisId } = args
+        const { thesisId, confirmation } = args
 
-        await ThesisModel.updateOne(
-          { _id: thesisId },
-          {
-            status: 'titled',
-            'title.status': 'confirmed',
-          }
-        )
+        if (confirmation) {
+          await ThesisModel.updateOne(
+            { _id: thesisId },
+            {
+              status: 'titled',
+              'title.status': 'confirmed',
+            }
+          )
+        } else {
+          await ThesisModel.updateOne(
+            { _id: thesisId },
+            {
+              status: 'initiated',
+            }
+          )
+        }
       } catch (error) {
         throw error
       }

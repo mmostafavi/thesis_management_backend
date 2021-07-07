@@ -1,4 +1,4 @@
-import Department from '../../controller/Department'
+import Student from '../../controller/Student'
 import { checkAvailability, populate } from '../../utils'
 
 export default async (req: any, res: any) => {
@@ -11,13 +11,15 @@ export default async (req: any, res: any) => {
     // Add validation for creating a thesis above
     // ----------------------------------------------------------
 
-    const { thesisId, confirmation } = req.body
+    const { thesisId, studentId, title } = req.body
 
     // checking for validity of ids
     const dataIsValid = await checkAvailability({
-      type: 'confirm_title_checks',
+      type: 'update_title_checks',
       data: {
         thesisId,
+        studentId,
+        title,
       },
     })
 
@@ -26,8 +28,8 @@ export default async (req: any, res: any) => {
     }
 
     // confirming title associated with thesisId
-    Department.confirmTitle({ thesisId, confirmation })
-    return res.status(200).send(`successful title confirmation`)
+    Student.updateTitle({ thesisId, studentId, title })
+    return res.status(200).send(`successful title update`)
   } catch (err) {
     throw err
   }

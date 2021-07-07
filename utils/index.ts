@@ -12,6 +12,7 @@ import setRefereesChecks from './setRefereesChecks'
 import setDefenceDateChecks from './setDefenceDateChecks'
 import refereeConfirmationChecks from './refereeConfirmationChecks'
 import submitScoreChecks from './submitScoreChecks'
+import updateTitleChecks from './updateTitleChecks'
 export const checkAvailability: any = (payload: any) => {
   try {
     const { type, data } = payload
@@ -75,6 +76,11 @@ export const checkAvailability: any = (payload: any) => {
       // ------------------------------------------------------------
       // checks associated with submit score resolver
       return submitScoreChecks(data)
+      // ------------------------------------------------------------
+    } else if (type === 'update_title_checks') {
+      // ------------------------------------------------------------
+      // checks associated with update title resolver
+      return updateTitleChecks(data)
       // ------------------------------------------------------------
     }
 

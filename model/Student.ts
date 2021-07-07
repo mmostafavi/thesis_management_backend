@@ -50,7 +50,7 @@ const StudentSchema = new Schema({
 
   thesisId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: false,
   },
 })
 

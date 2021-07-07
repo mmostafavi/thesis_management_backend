@@ -50,4 +50,23 @@ export default class Student implements StudentI {
       }
     })()
   }
+
+  public static updateTitle(args: any): void {
+    ;(async () => {
+      try {
+        const { thesisId, studentId, title } = args
+
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            'title.title': title,
+            'title.status': 'pending',
+            status: 'titled_pending',
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
+  }
 }
