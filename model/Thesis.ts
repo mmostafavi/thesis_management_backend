@@ -40,6 +40,7 @@ const ThesisSchema = new Schema({
       'referees_assigned',
       'defence_date_set',
       'referees_confirmed',
+      'archived',
     ],
     required: true,
   },

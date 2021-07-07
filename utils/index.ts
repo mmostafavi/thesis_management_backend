@@ -11,6 +11,7 @@ import confirmThesisChecks from './confirmThesisChecks'
 import setRefereesChecks from './setRefereesChecks'
 import setDefenceDateChecks from './setDefenceDateChecks'
 import refereeConfirmationChecks from './refereeConfirmationChecks'
+import submitScoreChecks from './submitScoreChecks'
 export const checkAvailability: any = (payload: any) => {
   try {
     const { type, data } = payload
@@ -69,6 +70,11 @@ export const checkAvailability: any = (payload: any) => {
       // ------------------------------------------------------------
       // checks associated with referee confirmation resolver
       return refereeConfirmationChecks(data)
+      // ------------------------------------------------------------
+    } else if (type === 'submit_score_checks') {
+      // ------------------------------------------------------------
+      // checks associated with submit score resolver
+      return submitScoreChecks(data)
       // ------------------------------------------------------------
     }
 

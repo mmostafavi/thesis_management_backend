@@ -8,6 +8,7 @@ import confirmThesis from './thesisRoutes/confirmThesis'
 import setReferees from './thesisRoutes/setReferees'
 import setDefenceDate from './thesisRoutes/setDefenceDate'
 import refereeConfirmation from './thesisRoutes/refereeConfirmation'
+import submitScore from './thesisRoutes/submitScore'
 
 const thesisRouter = express.Router()
 
@@ -19,5 +20,6 @@ thesisRouter.post('/confirm-thesis', confirmThesis)
 thesisRouter.put('/set-referees', setReferees)
 thesisRouter.put('/set-defence-date', setDefenceDate)
 thesisRouter.post('/referee-confirmation', refereeConfirmation)
+thesisRouter.put('/submit-score', submitScore)
 
 export default thesisRouter

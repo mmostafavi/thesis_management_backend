@@ -65,6 +65,20 @@ export default class NativeInstructor
 
   public static supervise(args: any): void {
     // add code here
+    ;(async () => {
+      try {
+        const { thesisId, supervisor, score } = args
+        await ThesisModel.updateOne(
+          { _id: thesisId },
+          {
+            score: score,
+            status: 'archived',
+          }
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
   }
 
   public static confirmThesis(args: any): void {
